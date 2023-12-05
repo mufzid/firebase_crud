@@ -1,3 +1,4 @@
+import 'package:firebase_crud/screens/login_screen.dart';
 import 'package:firebase_crud/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SignUpPage(),
-    );
+    return MaterialApp(home: const SignUpPage(), routes: {
+      '/login': (context) => const LoginPage(),
+    });
   }
 }

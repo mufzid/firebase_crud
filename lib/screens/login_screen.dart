@@ -1,8 +1,8 @@
 import 'package:firebase_crud/widgets/form_container.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,11 @@ class SignUpPage extends StatelessWidget {
                 height: 10,
               ),
               const Text(
-                'Sign Up',
+                'Login Page',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               const FromCondainerWidget(
                 hintText: "Email",
@@ -37,19 +40,10 @@ class SignUpPage extends StatelessWidget {
                 isPasswordField: true,
               ),
               const SizedBox(
-                height: 10,
-              ),
-              const FromCondainerWidget(
-                hintText: "Confirm Password",
-                isPasswordField: true,
-              ),
-              const SizedBox(
-                height: 10,
+                height: 20,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
+                onTap: () {},
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -58,7 +52,7 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: const Center(
                     child: Text(
-                      'Sign Up',
+                      'Login',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.white),
                     ),

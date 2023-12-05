@@ -41,7 +41,7 @@ class _FromCondainerWidgetState extends State<FromCondainerWidget> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextFormField(
-        style: const TextStyle(color: Colors.blue),
+        style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldkey,
@@ -50,6 +50,7 @@ class _FromCondainerWidgetState extends State<FromCondainerWidget> {
         validator: widget.validator,
         onFieldSubmitted: widget.onFieldSubmitted,
         decoration: InputDecoration(
+            hoverColor: Colors.red,
             border: InputBorder.none,
             filled: true,
             hintText: widget.hintText,
