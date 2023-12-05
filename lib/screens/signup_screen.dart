@@ -25,6 +25,9 @@ class SignUpPage extends StatelessWidget {
                 'Sign Up',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               const FromCondainerWidget(
                 hintText: "Email",
                 isPasswordField: false,
@@ -65,6 +68,29 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account?"),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 251, 0, 0)),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

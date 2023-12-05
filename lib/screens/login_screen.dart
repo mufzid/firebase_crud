@@ -43,7 +43,9 @@ class LoginPage extends StatelessWidget {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/list');
+                },
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -59,6 +61,29 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account?"),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/signup');
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 251, 0, 0)),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
