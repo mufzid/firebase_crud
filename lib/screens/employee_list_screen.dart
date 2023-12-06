@@ -12,6 +12,45 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      surfaceTintColor: Colors.black,
+                      backgroundColor: Colors.white,
+                      title: const Text('Are you sure want to Logout?'),
+                      content: const Text(
+                          'You want to login after you logot from the page'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, "/login"),
+                          child: const Text(
+                            'Log Out',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.logout_outlined,
+                  color: Colors.redAccent,
+                )),
+          )
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           'Employee List',
@@ -75,7 +114,37 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                     ),
                     IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.delete)),
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              surfaceTintColor: Colors.black,
+                              backgroundColor: Colors.white,
+                              title: const Text('Are you sure?'),
+                              content: const Text(
+                                  'This action will permanently delete this data'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, true),
+                                  child: const Text(
+                                    'Delete',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.delete)),
                   ],
                 ),
               ),

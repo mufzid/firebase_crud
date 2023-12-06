@@ -1,8 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crud/auth/firebase_auth.dart';
 import 'package:firebase_crud/widgets/form_container.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _emialController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _pass = TextEditingController();
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +40,33 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const FromCondainerWidget(
+              FromCondainerWidget(
+                controller: _emialController,
                 hintText: "Email",
                 isPasswordField: false,
               ),
               const SizedBox(
                 height: 10,
               ),
-              const FromCondainerWidget(
+              FromCondainerWidget(
+                controller: _pass,
+                // validator: (val) {
+                //   if (val!.isEmpty) return 'Empty';
+                //   return null;
+                // },
                 hintText: "Password",
                 isPasswordField: true,
               ),
               const SizedBox(
                 height: 10,
               ),
-              const FromCondainerWidget(
+              FromCondainerWidget(
+                controller: _passwordController,
+                // validator: (val) {
+                //   if (val!.isEmpty) return 'Empty';
+                //   if (val != _pass.text) return 'Not Match';
+                //   return null;
+                // },
                 hintText: "Confirm Password",
                 isPasswordField: true,
               ),
@@ -52,6 +76,7 @@ class SignUpPage extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/login');
+                  _signUp();
                 },
                 child: Container(
                   width: double.infinity,
@@ -96,5 +121,21 @@ class SignUpPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    String email = _emialController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("User is successfully created");
+      Navigator.pushNamed(context, '/login');
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => const HomePage()));
+    } else {
+      print('Some error happen');
+    }
   }
 }

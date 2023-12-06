@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crud/firebase_options.dart';
 import 'package:firebase_crud/screens/add.dart';
 import 'package:firebase_crud/screens/employee_list_screen.dart';
 import 'package:firebase_crud/screens/login_screen.dart';
 import 'package:firebase_crud/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
@@ -14,7 +20,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const AddScreen(),
+      home: const SignUpPage(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignUpPage(),
