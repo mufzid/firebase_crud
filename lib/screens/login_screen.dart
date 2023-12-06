@@ -1,9 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crud/auth/firebase_auth.dart';
 import 'package:firebase_crud/widgets/form_container.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController _emialController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +40,16 @@ class LoginPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const FromCondainerWidget(
+              FromCondainerWidget(
+                controller: _emialController,
                 hintText: "Email",
                 isPasswordField: false,
               ),
               const SizedBox(
                 height: 10,
               ),
-              const FromCondainerWidget(
+              FromCondainerWidget(
+                controller: _passwordController,
                 hintText: "Password",
                 isPasswordField: true,
               ),
@@ -44,7 +58,7 @@ class LoginPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/list');
+                  _signIn();
                 },
                 child: Container(
                   width: double.infinity,
@@ -89,5 +103,21 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signIn() async {
+    String email = _emialController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("User is successfully SignIn");
+      Navigator.pushNamed(context, '/list');
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => const HomePage()));
+    } else {
+      print('Some error happen');
+    }
   }
 }
