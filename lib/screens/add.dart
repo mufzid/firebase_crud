@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 
@@ -9,22 +10,26 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final states = [
-    'Kerala',
-    'Tamilnadu',
-    'karnadaka',
-    'Telgana',
-    'Delhi',
-    'Maharashtra',
-    'Gujarat',
-    'Punjab'
-  ];
+  final CollectionReference employee =
+      FirebaseFirestore.instance.collection('employee');
   String? selectedStates;
   String? gender;
   String? countryValue = "";
   String? stateValue = "";
   String? cityValue = "";
   String? address = "";
+  TextEditingController employeeName = TextEditingController();
+  TextEditingController _employeeEmail = TextEditingController();
+  TextEditingController _employeeJob = TextEditingController();
+
+  void addEmployee() {
+    final data = {
+      'name': employeeName.text,
+      'email': _employeeEmail.text,
+      'jobs': _employeeJob.text
+    };
+    employee.add(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class _AddScreenState extends State<AddScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: const Color.fromARGB(255, 40, 40, 40),
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
         title: const Text(
           'Add Employee',
           style: TextStyle(color: Colors.white),
@@ -44,6 +49,7 @@ class _AddScreenState extends State<AddScreen> {
         child: SingleChildScrollView(
           child: Column(children: [
             TextField(
+              controller: employeeName,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(3)),
@@ -53,6 +59,7 @@ class _AddScreenState extends State<AddScreen> {
               height: 10,
             ),
             TextField(
+              controller: _employeeEmail,
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(3)),
@@ -63,6 +70,7 @@ class _AddScreenState extends State<AddScreen> {
               height: 10,
             ),
             TextField(
+              controller: _employeeJob,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(3)),
@@ -178,7 +186,10 @@ class _AddScreenState extends State<AddScreen> {
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigator.pushNamed(context, '/list');
+                  addEmployee;
+                },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.red),
                   minimumSize:

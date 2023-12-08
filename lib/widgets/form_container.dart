@@ -34,13 +34,14 @@ class _FromCondainerWidgetState extends State<FromCondainerWidget> {
   @override
   Widget build(context) {
     return Container(
-      height: 50,
+      // height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(.40),
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
         controller: widget.controller,
         keyboardType: widget.inputType,
@@ -50,7 +51,6 @@ class _FromCondainerWidgetState extends State<FromCondainerWidget> {
         validator: widget.validator,
         onFieldSubmitted: widget.onFieldSubmitted,
         decoration: InputDecoration(
-            hoverColor: Colors.red,
             border: InputBorder.none,
             filled: true,
             hintText: widget.hintText,
