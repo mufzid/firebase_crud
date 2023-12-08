@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+class UpdateScreen extends StatefulWidget {
+  const UpdateScreen({super.key});
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
+  State<UpdateScreen> createState() => _UpdateScreenState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _UpdateScreenState extends State<UpdateScreen> {
   final CollectionReference employee =
       FirebaseFirestore.instance.collection('employee');
   String? selectedStates;
@@ -24,31 +24,26 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController employeeAddress = TextEditingController();
   TextEditingController employeeNumber = TextEditingController();
 
-  addEmployee() {
-    Map<String, String> data = {
-      'name': employeeName.text,
-      'email': employeeEmail.text,
-      'job': employeeJob.text,
-      'sex': gender.toString(),
-      'address': employeeAddress.text,
-      'number': employeeNumber.text,
-      'country': countryValue.toString(),
-      'state': stateValue.toString(),
-      'city': cityValue.toString(),
-    };
-    employee.add(data);
-  }
-
   @override
   Widget build(BuildContext context) {
-    // GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    employeeName.text = args['name'];
+    employeeEmail.text = args['email'];
+    employeeJob.text = args['job'];
+    gender = args['sex'];
+    employeeAddress.text = args['address'];
+    employeeNumber.text = args['number'];
+    countryValue = args['country'];
+    stateValue = args['state'];
+    cityValue = args['city'];
+    final docsId = args['id'];
 
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         title: const Text(
-          'Add Employee',
+          'Update Employee',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -143,6 +138,7 @@ class _AddScreenState extends State<AddScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Color.fromARGB(255, 236, 235, 235),
               ),
+
               disabledDropdownDecoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: const Color.fromARGB(255, 234, 233, 233),
@@ -171,6 +167,7 @@ class _AddScreenState extends State<AddScreen> {
                 color: Colors.black,
                 fontSize: 14,
               ),
+
               dropdownDialogRadius: 10.0,
               searchBarRadius: 10.0,
               onCountryChanged: (value) {
@@ -197,8 +194,9 @@ class _AddScreenState extends State<AddScreen> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/list');
-                  addEmployee();
+                  // Navigator.pushNamed(context, '/list');
+                  // addEmployee();
+                  updateEmployee(docsId);
                 },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.red),
@@ -206,7 +204,7 @@ class _AddScreenState extends State<AddScreen> {
                       MaterialStatePropertyAll(Size(double.infinity, 56)),
                 ),
                 child: const Text(
-                  'Submit',
+                  'Update',
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 )),
             const SizedBox(
@@ -216,5 +214,20 @@ class _AddScreenState extends State<AddScreen> {
         ),
       ),
     );
+  }
+
+  void updateEmployee(docsId) {
+    Map<String, String> data = {
+      'name': employeeName.text,
+      'email': employeeEmail.text,
+      'job': employeeJob.text,
+      'sex': gender.toString(),
+      'address': employeeAddress.text,
+      'number': employeeNumber.text,
+      'country': countryValue.toString(),
+      'state': stateValue.toString(),
+      'city': cityValue.toString(),
+    };
+    employee.doc(docsId).update(data).then((value) => Navigator.pop(context));
   }
 }

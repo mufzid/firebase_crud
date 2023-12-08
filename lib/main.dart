@@ -4,6 +4,7 @@ import 'package:firebase_crud/screens/add.dart';
 import 'package:firebase_crud/screens/employee_list_screen.dart';
 import 'package:firebase_crud/screens/login_screen.dart';
 import 'package:firebase_crud/screens/signup_screen.dart';
+import 'package:firebase_crud/screens/update.dart';
 import 'package:flutter/material.dart';
 
 Future main() async {
@@ -26,6 +27,7 @@ class MainApp extends StatelessWidget {
         '/signup': (context) => const SignUpPage(),
         '/list': (context) => const EmployeeListScreen(),
         '/add': (context) => const AddScreen(),
+        '/update': (context) => const UpdateScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

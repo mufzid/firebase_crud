@@ -113,35 +113,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                   ),
                                 ),
                               ),
-                              // ListTile(
-                              //   leading: Text('id'),
-                              //   // title: Text(
-                              //   //   employeeSnap['name'],
-                              //   //   style: const TextStyle(
-                              //     color: Color.fromARGB(255, 65, 0, 187),
-                              //     // fontSize: 8,
-                              //     // fontWeight: FontWeight.bold
-                              //   ),
-                              // ),
-                              // subtitle: Text(
-                              //   employeeSnap['email'],
-                              //   style: const TextStyle(
-                              //     color: Color.fromARGB(255, 65, 0, 187),
-                              //     // fontSize: 8,
-                              //     // fontWeight: FontWeight.bold
-                              //   ),
-                              // ),
-                              // trailing: Text(
-                              //   employeeSnap['job'],
-                              //   style: const TextStyle(
-                              //     color: Color.fromARGB(255, 65, 0, 187),
-                              //     // fontSize: 8,
-                              //     // fontWeight: FontWeight.bold
-                              //   ),
-                              // ),
-                              // ),
                               SizedBox(
-                                width: 200,
+                                width: 150,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +125,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                       style: const TextStyle(
                                           color:
                                               Color.fromARGB(255, 65, 0, 187),
-                                          fontSize: 18,
+                                          fontSize: 17,
                                           fontWeight: FontWeight.bold),
                                     ),
 
@@ -172,7 +145,22 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/update',
+                                        arguments: {
+                                          'name': employeeSnap['name'],
+                                          'email': employeeSnap['email'],
+                                          'job': employeeSnap['job'],
+                                          'sex': employeeSnap['sex'],
+                                          'address': employeeSnap['address'],
+                                          'number':
+                                              employeeSnap['number'].toString(),
+                                          'country': employeeSnap['country'],
+                                          'state': employeeSnap['state'],
+                                          'city': employeeSnap['city'],
+                                          'id': employeeSnap.id,
+                                        });
+                                  },
                                   icon: const Icon(Icons.edit)),
                               IconButton(
                                   onPressed: () async {
@@ -196,8 +184,9 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                             ),
                                           ),
                                           TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, true),
+                                            onPressed: () {
+                                              deleteEmployee(employeeSnap.id);
+                                            },
                                             child: const Text(
                                               'Delete',
                                               style:
@@ -209,6 +198,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                     );
                                   },
                                   icon: const Icon(Icons.delete)),
+                              IconButton(
+                                  onPressed: () {}, icon: Icon(Icons.person))
                             ],
                           ),
                         ],
@@ -223,5 +214,9 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
         ),
       ),
     );
+  }
+
+  void deleteEmployee(docId) {
+    employee.doc(docId).delete().then((value) => Navigator.pop(context));
   }
 }
