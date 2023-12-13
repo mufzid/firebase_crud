@@ -194,8 +194,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, '/list');
-                  // addEmployee();
                   updateEmployee(docsId);
                 },
                 style: const ButtonStyle(

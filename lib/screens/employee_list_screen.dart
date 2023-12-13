@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crud/resources/save_data.dart';
+import 'package:firebase_crud/screens/insertimage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EmployeeListScreen extends StatefulWidget {
   const EmployeeListScreen({super.key});
@@ -9,8 +14,18 @@ class EmployeeListScreen extends StatefulWidget {
 }
 
 class _EmployeeListScreenState extends State<EmployeeListScreen> {
-  //  final CollectionReference donor =
-  //     FirebaseFirestore.instance.collection('donor');
+  Uint8List? _image;
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
+  void saveProfile() async {
+    String resp = await StoreData().saveData(file: _image!);
+  }
+
   final CollectionReference employee =
       FirebaseFirestore.instance.collection('employee');
   @override
@@ -35,7 +50,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                           onPressed: () => Navigator.pop(context, false),
                           child: const Text(
                             'Cancel',
-                            style: TextStyle(color: Colors.red),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 203, 16, 3)),
                           ),
                         ),
                         TextButton(
@@ -101,17 +117,33 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                         children: [
                           Row(
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 170, 170, 170),
-                                  radius: 30,
-                                  child: Image(
-                                    image: AssetImage(
-                                        'assets/images/placeholder.png'),
-                                  ),
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Stack(children: [
+                                  _image != null
+                                      ? CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: MemoryImage(_image!),
+                                        )
+                                      : const CircleAvatar(
+                                          backgroundColor: Color.fromARGB(
+                                              255, 170, 170, 170),
+                                          radius: 30,
+                                          backgroundImage: NetworkImage(
+                                              'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'),
+                                        ),
+                                  Positioned(
+                                    bottom: -18,
+                                    left: 20,
+                                    child: IconButton(
+                                      onPressed: selectImage,
+                                      icon: const Icon(
+                                        Icons.add_a_photo,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  )
+                                ]),
                               ),
                               SizedBox(
                                 width: 150,
@@ -123,8 +155,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                     Text(
                                       employeeSnap['name'],
                                       style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 65, 0, 187),
+                                          color: Color.fromARGB(255, 189, 0, 0),
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -199,7 +230,10 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                   },
                                   icon: const Icon(Icons.delete)),
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.person))
+                                  onPressed: () {
+                                    saveProfile();
+                                  },
+                                  icon: const Icon(Icons.person))
                             ],
                           ),
                         ],
